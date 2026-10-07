@@ -1,0 +1,30 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:Y291bnR5LXZpc2lvbi1zY3JlZW5pbmctcGxhdGZvcm0tZGVtby1zZWNyZXQta2V5LTEyMw==}
+    expire-hours: 12
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+vision:
+  # 本地默认不依赖 Redis；postgres profile 下自动启用
+  redis:
+    enabled: ${VISION_REDIS_ENABLED:false}
+  seed:
+    enabled: ${VISION_SEED_ENABLED:true}

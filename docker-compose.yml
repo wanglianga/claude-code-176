@@ -1,0 +1,59 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: vision-postgres
+    environment:
+      POSTGRES_DB: vision
+      POSTGRES_USER: vision
+      POSTGRES_PASSWORD: vision123
+    ports:
+      - "5432:5432"
+    volumes:
+      - vision-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vision -d vision"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: vision-redis
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - vision-redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vision-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: postgres
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_NAME: vision
+      DB_USER: vision
+      DB_PASSWORD: vision123
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      JWT_SECRET: Y291bnR5LXZpc2lvbi1zY3JlZW5pbmctcGxhdGZvcm0tZGVtby1zZWNyZXQta2V5LTEyMw==
+      VISION_SEED_ENABLED: "true"
+    ports:
+      - "8080:8080"
+
+volumes:
+  vision-pgdata:
+  vision-redis:

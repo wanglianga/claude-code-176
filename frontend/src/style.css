@@ -1,0 +1,38 @@
+:root {
+  --brand: #1f6f8b;
+  --brand-light: #e8f4f8;
+}
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  background: #f4f6f9;
+}
+.page-container {
+  padding: 16px;
+}
+.card-header-title {
+  font-weight: 600;
+  font-size: 15px;
+}
+.kpi-card {
+  border-radius: 10px;
+}
+.kpi-card .num {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--brand);
+}
+.kpi-card .label {
+  color: #888;
+  font-size: 13px;
+}
+.muted { color: #909399; font-size: 12px; }
+.section-title {
+  font-weight: 600;
+  margin: 8px 0 12px;
+  border-left: 3px solid var(--brand);
+  padding-left: 8px;
+}
+.timeline-dot-action { color: #1f6f8b; }
